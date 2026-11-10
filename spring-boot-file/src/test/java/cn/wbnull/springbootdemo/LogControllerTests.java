@@ -1,15 +1,15 @@
 package cn.wbnull.springbootdemo;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * 日志接口测试类
@@ -27,23 +27,17 @@ public class LogControllerTests {
     }
 
     private static void logUpload(String url, String pathname) {
-        HttpClient httpClient = new HttpClient();
-        PostMethod postMethod = new PostMethod(url);
+        RestTemplate restTemplate = new RestTemplate();
 
-        try {
-            FilePart filePart = new FilePart("file", new File(pathname));
-            Part[] parts = {filePart};
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("file", new FileSystemResource(pathname));
 
-            MultipartRequestEntity multipartRequestEntity = new MultipartRequestEntity(parts, new HttpMethodParams());
-            postMethod.setRequestEntity(multipartRequestEntity);
-            httpClient.executeMethod(postMethod);
-            String result = postMethod.getResponseBodyAsString();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-            System.out.println(result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            postMethod.releaseConnection();
-        }
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        String result = restTemplate.postForObject(url, requestEntity, String.class);
+
+        System.out.println(result);
     }
 }
