@@ -1,8 +1,7 @@
 package cn.wbnull.springbootdemo.util;
 
 import cn.wbnull.springbootdemo.config.UtilConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Logger 工具类
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
  * @author dukunbiao(null)  2018-12-17
  * https://github.com/dkbnull/Util
  */
+@Slf4j
 public class LoggerUtils {
 
     private static final int OFF = 0;
@@ -19,17 +19,7 @@ public class LoggerUtils {
     private static final int DEBUG = 7;
     private static final int ALL = 8;
 
-    private static Logger logger;
-
     private LoggerUtils() {
-    }
-
-    private static Logger getLogger() {
-        if (logger == null) {
-            logger = LoggerFactory.getLogger(LoggerUtils.class);
-        }
-
-        return logger;
     }
 
     private static boolean offLevel() {
@@ -58,7 +48,7 @@ public class LoggerUtils {
         }
 
         if (errorLevel()) {
-            getLogger().error(message);
+            log.error(message);
         }
     }
 
@@ -68,7 +58,7 @@ public class LoggerUtils {
         }
 
         if (errorLevel()) {
-            getLogger().error(toMessage(position, method, content));
+            log.error(toMessage(position, method, content));
         }
     }
 
@@ -78,7 +68,7 @@ public class LoggerUtils {
         }
 
         if (errorLevel()) {
-            getLogger().error(toMessage(mac, position, method, content));
+            log.error(toMessage(mac, position, method, content));
         }
     }
 
@@ -88,7 +78,7 @@ public class LoggerUtils {
         }
 
         if (errorLevel()) {
-            getLogger().error(message, t);
+            log.error(message, t);
         }
     }
 
@@ -98,7 +88,7 @@ public class LoggerUtils {
         }
 
         if (errorLevel()) {
-            getLogger().error(toMessage(position, method, ""), t);
+            log.error(toMessage(position, method, ""), t);
         }
     }
 
@@ -108,7 +98,7 @@ public class LoggerUtils {
         }
 
         if (errorLevel()) {
-            getLogger().error(toMessage(mac, position, method, ""), t);
+            log.error(toMessage(mac, position, method, ""), t);
         }
     }
 
@@ -118,7 +108,7 @@ public class LoggerUtils {
         }
 
         if (warnLevel()) {
-            getLogger().warn(message);
+            log.warn(message);
         }
     }
 
@@ -128,7 +118,7 @@ public class LoggerUtils {
         }
 
         if (warnLevel()) {
-            getLogger().warn(toMessage(position, method, content));
+            log.warn(toMessage(position, method, content));
         }
     }
 
@@ -138,7 +128,7 @@ public class LoggerUtils {
         }
 
         if (warnLevel()) {
-            getLogger().warn(toMessage(mac, position, method, content));
+            log.warn(toMessage(mac, position, method, content));
         }
     }
 
@@ -148,7 +138,7 @@ public class LoggerUtils {
         }
 
         if (infoLevel()) {
-            getLogger().info(message);
+            log.info(message);
         }
     }
 
@@ -158,7 +148,7 @@ public class LoggerUtils {
         }
 
         if (infoLevel()) {
-            getLogger().info(toMessage(position, method, content));
+            log.info(toMessage(position, method, content));
         }
     }
 
@@ -168,7 +158,7 @@ public class LoggerUtils {
         }
 
         if (infoLevel()) {
-            getLogger().info(toMessage(mac, position, method, content));
+            log.info(toMessage(mac, position, method, content));
         }
     }
 
@@ -178,7 +168,7 @@ public class LoggerUtils {
         }
 
         if (debugLevel()) {
-            getLogger().debug(message);
+            log.debug(message);
         }
     }
 
@@ -188,7 +178,7 @@ public class LoggerUtils {
         }
 
         if (debugLevel()) {
-            getLogger().debug(toMessage(position, method, content));
+            log.debug(toMessage(position, method, content));
         }
     }
 
@@ -198,7 +188,7 @@ public class LoggerUtils {
         }
 
         if (debugLevel()) {
-            getLogger().debug(toMessage(mac, position, method, content));
+            log.debug(toMessage(mac, position, method, content));
         }
     }
 

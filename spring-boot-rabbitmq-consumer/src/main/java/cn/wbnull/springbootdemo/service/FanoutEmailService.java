@@ -1,5 +1,6 @@
 package cn.wbnull.springbootdemo.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  */
 @RabbitListener(queues = "email.fanout.queue")
 @Service
+@Slf4j
 public class FanoutEmailService {
 
     /**
@@ -23,6 +25,6 @@ public class FanoutEmailService {
     public void receiveMessage(String message) {
         //发送邮件
 
-        System.out.println("email.fanout：" + message);
+        log.info("email.fanout：{}", message);
     }
 }

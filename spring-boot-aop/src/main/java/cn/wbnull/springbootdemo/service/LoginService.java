@@ -1,6 +1,7 @@
 package cn.wbnull.springbootdemo.service;
 
 import cn.wbnull.springbootdemo.util.JSONUtils;
+import cn.wbnull.springbootdemo.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,17 @@ public class LoginService {
     public JSONObject login(Object data) throws Exception {
         JSONObject responseParams = new JSONObject();
 
+        if (data == null || StringUtils.isEmpty(data.toString())) {
+            responseParams.put("code", "2000");
+            responseParams.put("message", "FAIL");
+
+            return responseParams;
+        }
+
         JSONObject requestParams = JSONObject.parseObject(data.toString());
-        if (JSONUtils.getJSONString(requestParams, "username").equalsIgnoreCase(
-                JSONUtils.getJSONString(requestParams, "password"))) {
+        String username = JSONUtils.getJSONString(requestParams, "username");
+        String password = JSONUtils.getJSONString(requestParams, "password");
+        if (StringUtils.areNotEmpty(username, password) && username.equalsIgnoreCase(password)) {
             responseParams.put("code", "1000");
             responseParams.put("message", "SUCCESS");
         } else {

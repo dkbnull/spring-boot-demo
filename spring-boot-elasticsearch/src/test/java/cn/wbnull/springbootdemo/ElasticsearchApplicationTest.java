@@ -14,6 +14,7 @@ import co.elastic.clients.elasticsearch.indices.GetIndexResponse;
 import co.elastic.clients.json.JsonData;
 import co.elastic.clients.transport.endpoints.BooleanResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest(classes = ElasticsearchApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = ElasticsearchApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Slf4j
 public class ElasticsearchApplicationTest {
 
     @Autowired
@@ -42,7 +44,7 @@ public class ElasticsearchApplicationTest {
 
         //执行，获得响应
         CreateIndexResponse response = elasticsearchClient.indices().create(index);
-        System.out.println(response.toString());
+        log.info("{}", response);
     }
 
     /**
@@ -57,7 +59,7 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         GetIndexResponse response = elasticsearchClient.indices().get(index);
-        System.out.println(response.toString());
+        log.info("{}", response);
     }
 
     /**
@@ -79,7 +81,7 @@ public class ElasticsearchApplicationTest {
 
         //发送请求，获取响应结果
         IndexResponse response = elasticsearchClient.index(request);
-        System.out.println(response.toString());
+        log.info("{}", response);
     }
 
     /**
@@ -96,7 +98,7 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         BooleanResponse exists = elasticsearchClient.exists(request);
-        System.out.println("BooleanResponse: " + exists.value());
+        log.info("BooleanResponse: {}", exists.value());
 
         if (!exists.value()) {
             return;
@@ -109,9 +111,9 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         GetResponse<? extends UserModel> responseGet = elasticsearchClient.get(requestGet, UserModel.class);
-        System.out.println(responseGet.toString());
+        log.info("{}", responseGet);
         ObjectMapper mapper = new ObjectMapper();
-        System.out.println(mapper.writeValueAsString(responseGet.source()));
+        log.info(mapper.writeValueAsString(responseGet.source()));
     }
 
     /**
@@ -131,7 +133,7 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         UpdateResponse<UserModel> response = elasticsearchClient.update(request, UserModel.class);
-        System.out.println(response.toString());
+        log.info("{}", response);
     }
 
     /**
@@ -148,7 +150,7 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         DeleteResponse response = elasticsearchClient.delete(request);
-        System.out.println(response.toString());
+        log.info("{}", response);
     }
 
     /**
@@ -174,7 +176,7 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         BulkResponse response = elasticsearchClient.bulk(request);
-        System.out.println(response.toString());
+        log.info("{}", response);
     }
 
     /**
@@ -198,7 +200,7 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         SearchResponse<UserModel> response = elasticsearchClient.search(request, UserModel.class);
-        System.out.println(response.hits().hits().toString());
+        log.info("{}", response.hits().hits());
     }
 
     /**
@@ -220,7 +222,7 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         SearchResponse<UserModel> response = elasticsearchClient.search(request, UserModel.class);
-        System.out.println(response.hits().hits().toString());
+        log.info("{}", response.hits().hits());
     }
 
     /**
@@ -253,7 +255,7 @@ public class ElasticsearchApplicationTest {
                 .query(new Query.Builder().bool(boolQuery).build())
                 .build();
         SearchResponse<UserModel> response = elasticsearchClient.search(request, UserModel.class);
-        System.out.println(response.hits().hits().toString());
+        log.info("{}", response.hits().hits());
     }
 
     /**
@@ -275,7 +277,7 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         SearchResponse<UserModel> response = elasticsearchClient.search(request, UserModel.class);
-        System.out.println(response.hits().hits().toString());
+        log.info("{}", response.hits().hits());
     }
 
     /**
@@ -296,7 +298,7 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         SearchResponse<UserModel> response = elasticsearchClient.search(request, UserModel.class);
-        System.out.println(response.hits().hits().toString());
+        log.info("{}", response.hits().hits());
     }
 
     /**
@@ -319,7 +321,7 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         SearchResponse<UserModel> response = elasticsearchClient.search(request, UserModel.class);
-        System.out.println(response.hits().hits().toString());
+        log.info("{}", response.hits().hits());
     }
 
     /**
@@ -341,7 +343,7 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         SearchResponse<UserModel> response = elasticsearchClient.search(request, UserModel.class);
-        System.out.println(response.hits().hits().toString());
+        log.info("{}", response.hits().hits());
     }
 
     /**
@@ -363,6 +365,6 @@ public class ElasticsearchApplicationTest {
                 .build();
 
         SearchResponse<UserModel> response = elasticsearchClient.search(request, UserModel.class);
-        System.out.println(response.hits().hits().toString());
+        log.info("{}", response.hits().hits());
     }
 }

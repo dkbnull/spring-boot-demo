@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -22,13 +24,14 @@ import java.util.List;
 public class LogService {
 
     public void logDownload(String name, HttpServletResponse response) throws Exception {
-        File file = new File("logs" + File.separator + name);
+        String fileName = safeFileName(name);
+        File file = new File("logs", fileName);
 
         if (!file.exists()) {
-            throw new GlobalException(name + "文件不存在");
+            throw new GlobalException(fileName + "文件不存在");
         }
         response.setContentType("application/force-download");
-        response.addHeader("Content-Disposition", "attachment;fileName=" + name);
+        response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
         response.setContentLength((int) file.length());
 
         byte[] buffer = new byte[1024];
@@ -55,7 +58,7 @@ public class LogService {
             fileUpload.mkdirs();
         }
 
-        fileUpload = new File(filePath, file.getOriginalFilename());
+        fileUpload = new File(filePath, safeFileName(file.getOriginalFilename()));
         if (fileUpload.exists()) {
             throw new GlobalException("上传的日志文件已存在");
         }
@@ -77,5 +80,24 @@ public class LogService {
         }
 
         return ReturnMessage.success();
+    }
+
+    private String safeFileName(String name) throws GlobalException {
+        if (name == null || name.trim().isEmpty()) {
+            throw new GlobalException("文件名不能为空");
+        }
+
+        String fileName;
+        try {
+            fileName = Paths.get(name).getFileName().toString();
+        } catch (InvalidPathException e) {
+            throw new GlobalException("文件名非法：" + name);
+        }
+
+        if (".".equals(fileName) || "..".equals(fileName) || fileName.trim().isEmpty()) {
+            throw new GlobalException("文件名非法：" + name);
+        }
+
+        return fileName;
     }
 }

@@ -12,6 +12,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,6 +24,12 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class SignAop {
+
+    @Value("${demo.sign.key}")
+    private String signKey;
+
+    @Value("${demo.sign.max-gap-seconds:300}")
+    private long maxGapSeconds;
 
     /**
      * 声明一个切入点，范围为controller包下所有的类
@@ -42,9 +49,13 @@ public class SignAop {
     @Before("signAop()")
     public void doBefore(JoinPoint joinPoint) throws Exception {
         Object[] objects = joinPoint.getArgs();
-        String sign = objects[0].toString();
-        String timestamp = objects[1].toString();
-        String data = objects[2].toString();
+        if (objects == null || objects.length < 3) {
+            throw new GlobalException("sign or timestamp or data is null");
+        }
+
+        String sign = objects[0] == null ? "" : objects[0].toString();
+        String timestamp = objects[1] == null ? "" : objects[1].toString();
+        String data = objects[2] == null ? "" : objects[2].toString();
 
         String strLog = "[" + Thread.currentThread().getId() + "]" + "[请求方法] " + joinPoint.getSignature().getName() + " ||";
         LoggerUtils.getLogger().info(strLog + "[请求参数] sign=" + sign + ",timestamp=" + timestamp + ",data=" + data);
@@ -54,7 +65,19 @@ public class SignAop {
             throw new GlobalException("sign or timestamp or data is null");
         }
 
-        String md5String = "data=" + data + "&key=1234567890&timestamp=" + timestamp;
+        long timestampValue;
+        try {
+            timestampValue = Long.parseLong(timestamp);
+        } catch (NumberFormatException e) {
+            throw new GlobalException("timestamp is invalid");
+        }
+
+        long now = System.currentTimeMillis() / 1000;
+        if (Math.abs(now - timestampValue) > maxGapSeconds) {
+            throw new GlobalException("timestamp is expired");
+        }
+
+        String md5String = "data=" + data + "&key=" + signKey + "&timestamp=" + timestamp;
         String signNow = DigestUtils.md5Hex(md5String);
 
         if (!sign.equalsIgnoreCase(signNow)) {
@@ -74,7 +97,7 @@ public class SignAop {
         String data = JSONUtils.getJSONString(params, DemoConstants.DATA);
         long timestamp = System.currentTimeMillis() / 1000;
 
-        String md5String = "data=" + data + "&key=1234567890&timestamp=" + timestamp;
+        String md5String = "data=" + data + "&key=" + signKey + "&timestamp=" + timestamp;
         String sign = DigestUtils.md5Hex(md5String);
 
         params.put(DemoConstants.TIMESTAMP, timestamp);

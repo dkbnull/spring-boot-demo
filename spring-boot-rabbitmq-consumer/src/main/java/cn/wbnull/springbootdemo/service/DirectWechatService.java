@@ -1,5 +1,6 @@
 package cn.wbnull.springbootdemo.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
         exchange = @Exchange(value = "direct_user_exchange"),
         key = "wechat"))
 @Service
+@Slf4j
 public class DirectWechatService {
 
     /**
@@ -30,6 +32,6 @@ public class DirectWechatService {
     public void receiveMessage(String message) {
         //推送微信消息
 
-        System.out.println("wechat.direct：" + message);
+        log.info("wechat.direct：{}", message);
     }
 }

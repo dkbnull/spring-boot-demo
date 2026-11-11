@@ -34,7 +34,11 @@ public class GlobalLocaleResolver implements LocaleResolver {
         if (!StringUtils.isEmpty(language)) {
             //zh_CN 国家_地区
             String[] values = language.split("_");
-            locale = new Locale(values[0], values[1]);
+            if (values.length == 2) {
+                locale = new Locale(values[0], values[1]);
+            } else if (values.length == 1) {
+                locale = new Locale(values[0]);
+            }
         }
 
         return locale;

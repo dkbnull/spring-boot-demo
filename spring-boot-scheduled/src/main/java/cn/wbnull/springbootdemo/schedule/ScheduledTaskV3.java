@@ -45,7 +45,7 @@ public class ScheduledTaskV3 {
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LoggerUtils.error("定时任务线程被中断", e);
         }
     }
 }

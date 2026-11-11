@@ -1,5 +1,6 @@
 package cn.wbnull.springbootdemo.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  */
 @RabbitListener(queues = "sms.topic.queue")
 @Service
+@Slf4j
 public class TopicSmsService {
 
     /**
@@ -23,6 +25,6 @@ public class TopicSmsService {
     public void receiveMessage(String message) {
         //发送短信
 
-        System.out.println("sms.topic：" + message);
+        log.info("sms.topic：{}", message);
     }
 }

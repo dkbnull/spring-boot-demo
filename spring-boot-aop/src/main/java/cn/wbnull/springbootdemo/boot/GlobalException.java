@@ -43,7 +43,7 @@ public class GlobalException extends Exception {
 
     @Override
     public String getMessage() {
-        return message;
+        return message == null ? super.getMessage() : message;
     }
 
     @Override

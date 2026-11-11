@@ -36,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         } else if ("admin0".equals(s)) {
             roles = AuthorityUtils.createAuthorityList("ROLE_level1", "ROLE_level2", "level3");
         } else {
-            roles = AuthorityUtils.createAuthorityList("admin");
+            throw new UsernameNotFoundException("用户名或密码错误");
         }
 
         return new User(s, new BCryptPasswordEncoder().encode("123456"), roles);

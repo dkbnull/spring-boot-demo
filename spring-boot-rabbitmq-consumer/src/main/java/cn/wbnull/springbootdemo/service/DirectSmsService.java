@@ -1,5 +1,6 @@
 package cn.wbnull.springbootdemo.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
         exchange = @Exchange(value = "direct_user_exchange", type = ExchangeTypes.DIRECT),
         key = "sms"))
 @Service
+@Slf4j
 public class DirectSmsService {
 
     /**
@@ -31,6 +33,6 @@ public class DirectSmsService {
     public void receiveMessage(String message) {
         //发送短信
 
-        System.out.println("sms.direct：" + message);
+        log.info("sms.direct：{}", message);
     }
 }

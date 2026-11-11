@@ -1,5 +1,6 @@
 package cn.wbnull.springbootdemo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -17,11 +18,12 @@ import java.io.File;
  * @author dukunbiao(null)  2019-03-27
  * https://github.com/dkbnull/SpringBootDemo
  */
+@Slf4j
 public class LogControllerTests {
 
     @Test
     public void logUpload() throws Exception {
-        String url = "http://127.0.0.1:8090/springbootdemo/log/upload";
+        String url = "http://127.0.0.1:8084/log/upload";
         String pathname = new File("../logs" + File.separator + "log_20190310.log").getCanonicalPath();
         logUpload(url, pathname);
     }
@@ -38,6 +40,6 @@ public class LogControllerTests {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         String result = restTemplate.postForObject(url, requestEntity, String.class);
 
-        System.out.println(result);
+        log.info("{}", result);
     }
 }

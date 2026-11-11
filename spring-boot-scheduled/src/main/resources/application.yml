@@ -1,8 +1,6 @@
 #Tomcat
 server:
-  port: 8090
-  servlet:
-    context-path: /springbootdemo
+  port: 8093
 
 demo:
   corn: 0/7 * * * * ?

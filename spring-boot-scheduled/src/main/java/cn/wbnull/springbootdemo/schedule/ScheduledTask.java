@@ -1,5 +1,6 @@
 package cn.wbnull.springbootdemo.schedule;
 
+import cn.wbnull.springbootdemo.util.LoggerUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,7 +42,8 @@ public class ScheduledTask {
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LoggerUtils.error("定时任务线程被中断", e);
+            Thread.currentThread().interrupt();
         }
     }
 }

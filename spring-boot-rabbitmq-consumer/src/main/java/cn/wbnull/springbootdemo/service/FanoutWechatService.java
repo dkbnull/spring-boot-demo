@@ -1,5 +1,6 @@
 package cn.wbnull.springbootdemo.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  */
 @RabbitListener(queues = "wechat.fanout.queue")
 @Service
+@Slf4j
 public class FanoutWechatService {
 
     /**
@@ -23,6 +25,6 @@ public class FanoutWechatService {
     public void receiveMessage(String message) {
         //推送微信消息
 
-        System.out.println("wechat.fanout：" + message);
+        log.info("wechat.fanout：{}", message);
     }
 }

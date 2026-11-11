@@ -13,7 +13,7 @@ import javax.mail.internet.MimeUtility;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 
-@SpringBootTest(classes = MailApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = MailApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MailApplicationTest {
 
     @Autowired

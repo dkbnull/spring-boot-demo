@@ -27,21 +27,19 @@
 
     <!--日志文件输出-->
     <appender name="LOG_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的文件名-->
-            <FileNamePattern>${LOG_HOME}/log_%d{yyyy-MM-dd}.log</FileNamePattern>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志文件输出的文件名，%i为按大小切分的序号-->
+            <FileNamePattern>${LOG_HOME}/log_%d{yyyy-MM-dd}.%i.log</FileNamePattern>
             <!--日志保留天数-->
             <MaxHistory>180</MaxHistory>
+            <!--单个日志文件最大大小-->
+            <MaxFileSize>10MB</MaxFileSize>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--格式化日志输出：%d表示日期；%thread表示线程名；%-5level表示日志级别，且从左显示5个字符宽度；
             %logger表示日志输出位置；%msg表示日志内容；%n表示换行符-->
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg %n</pattern>
         </encoder>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <!--日志文件最大大小-->
-            <MaxFileSize>10MB</MaxFileSize>
-        </triggeringPolicy>
     </appender>
 
     <!--日志输出级别-->

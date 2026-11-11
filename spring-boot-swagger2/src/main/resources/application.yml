@@ -1,5 +1,8 @@
 #Tomcat
 server:
-  port: 8090
-  servlet:
-    context-path: /springbootdemo
+  port: 8086
+#springfox 2.x 不支持 Spring Boot 2.6+ 默认的 PathPatternParser，需切换为 Ant 风格路径匹配
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher

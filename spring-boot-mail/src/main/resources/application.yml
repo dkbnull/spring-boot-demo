@@ -1,11 +1,11 @@
 server:
-  port: 8090
+  port: 8094
 spring:
   mail:
     #邮箱地址
-    username: 921xxxxxx@qq.com
+    username: ""
     #授权码
-    password: vsxzxxxxxxxxxcbg
+    password: ""
     #发送服务器
     host: smtp.qq.com
     #开启加密授权验证

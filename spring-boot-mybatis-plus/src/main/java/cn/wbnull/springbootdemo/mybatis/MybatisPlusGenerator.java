@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.Scanner;
@@ -14,6 +15,7 @@ import java.util.Scanner;
  * @author dukunbiao(null)  2024-02-19
  * https://github.com/dkbnull/SpringBootDemo
  */
+@Slf4j
 public class MybatisPlusGenerator {
 
     private static final String URL = "jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf8&serverTimezone=GMT%2B8";
@@ -67,7 +69,7 @@ public class MybatisPlusGenerator {
     public static String scanner() {
         Scanner scanner = new Scanner(System.in);
         String hint = "请输入数据库表名，多个表名使用英文逗号分隔：";
-        System.out.println(hint);
+        log.info(hint);
         if (scanner.hasNext()) {
             String ipt = scanner.next();
             if (ipt != null && ipt.length() > 0) {

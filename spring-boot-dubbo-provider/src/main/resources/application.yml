@@ -1,6 +1,6 @@
 #访问端口
 server:
-  port: 8090
+  port: 8101
 #
 dubbo:
   #服务应用名字

@@ -1,5 +1,6 @@
 package cn.wbnull.springbootdemo.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
         exchange = @Exchange(value = "direct_user_exchange"),
         key = "email"))
 @Service
+@Slf4j
 public class DirectEmailService {
 
     /**
@@ -30,6 +32,6 @@ public class DirectEmailService {
     public void receiveMessage(String message) {
         //发送邮件
 
-        System.out.println("email.direct：" + message);
+        log.info("email.direct：{}", message);
     }
 }

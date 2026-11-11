@@ -1,5 +1,6 @@
 package cn.wbnull.springbootdemo.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  */
 @RabbitListener(queues = "dlx.topic.queue")
 @Service
+@Slf4j
 public class TopicDlxService {
 
     /**
@@ -21,6 +23,6 @@ public class TopicDlxService {
      */
     @RabbitHandler
     public void receiveMessage(String message) {
-        System.out.println("dlx.topic：" + message);
+        log.warn("dlx.topic：{}", message);
     }
 }
